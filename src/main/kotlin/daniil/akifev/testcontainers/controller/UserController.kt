@@ -1,6 +1,5 @@
 package daniil.akifev.testcontainers.controller
 
-import daniil.akifev.testcontainers.entity.Company
 import daniil.akifev.testcontainers.entity.Stock
 import daniil.akifev.testcontainers.entity.User
 import daniil.akifev.testcontainers.repository.StockRepository

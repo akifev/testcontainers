@@ -1,6 +1,5 @@
 package daniil.akifev.testcontainers.entity
 
-import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.*
 
 @Entity(name = "Stock")

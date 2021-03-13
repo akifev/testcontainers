@@ -1,9 +1,8 @@
 package daniil.akifev.testcontainers.entity
 
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
-@Entity(name="Company")
+@Entity(name = "Company")
 @Table(name = "company")
 data class Company(
     @Id
