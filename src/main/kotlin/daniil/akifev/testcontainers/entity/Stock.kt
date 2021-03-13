@@ -20,4 +20,8 @@ data class Stock(
     fun price(): Int {
         return company.stockPrice
     }
+
+    override fun toString(): String {
+        return "$id ${company.id} ${owner?.id}"
+    }
 }

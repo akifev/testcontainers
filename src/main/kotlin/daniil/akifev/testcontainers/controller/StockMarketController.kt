@@ -30,7 +30,6 @@ class StockMarketController {
         repeat(count) {
             val stock = Stock(company = company)
             stockRepository.save(stock)
-            company.stocks.add(stock)
         }
     }
 
@@ -38,5 +37,11 @@ class StockMarketController {
     fun getStockPrice(@RequestParam companyId: Int): Int {
         val company = companyRepository.getOne(companyId)
         return company.stockPrice
+    }
+
+    @GetMapping("/get-company-stocks")
+    fun getCompany(@RequestParam companyId: Int): List<String> {
+        val company = companyRepository.getOne(companyId)
+        return company.stocks.map(Stock::toString)
     }
 }

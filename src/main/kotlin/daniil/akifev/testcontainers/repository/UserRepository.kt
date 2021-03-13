@@ -2,5 +2,15 @@ package daniil.akifev.testcontainers.repository
 
 import daniil.akifev.testcontainers.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
-interface UserRepository : JpaRepository<User, Int>
+@Repository
+interface UserRepository : JpaRepository<User, Int> {
+    @Modifying
+    @Transactional
+    @Query(value = "update user set money = ?2 where id = ?1", nativeQuery = true)
+    fun setMoney(id: Int, money: Int)
+}

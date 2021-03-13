@@ -27,13 +27,13 @@ class UserController {
     @PostMapping("/add-money")
     fun addMoney(@RequestParam userId: Int, @RequestParam money: Int) {
         val user = userRepository.getOne(userId)
-        user.money += money
+        userRepository.setMoney(userId, user.money + money)
     }
 
     @GetMapping("/get-stocks")
-    fun getStocks(@RequestParam userId: Int): Set<Stock> {
+    fun getStocks(@RequestParam userId: Int): List<String> {
         val user = userRepository.getOne(userId)
-        return user.stocks
+        return user.stocks.map(Stock::toString)
     }
 
     @GetMapping("/get-stocks-count")
@@ -54,25 +54,24 @@ class UserController {
         return user.stocks.totalCost() + user.money
     }
 
-    @PostMapping("/buy-stocks")
-    fun buyStocks(@RequestParam userId: Int, @RequestParam stockIds: List<Int>) {
+    @PostMapping("/buy-stock")
+    fun buyStock(@RequestParam userId: Int, @RequestParam stockId: Int): Boolean {
         val user = userRepository.getOne(userId)
-        for (stockId in stockIds) {
-            val stock = stockRepository.getOne(stockId)
-            if (user.money >= stock.price()) {
-                user.stocks.add(stock)
-                user.money -= stock.price()
-            }
+        val stock = stockRepository.getOne(stockId)
+        val price = stock.price()
+        if (user.money < price) {
+            return false
         }
+        stockRepository.setOwner(stock.id, user.id)
+        userRepository.setMoney(user.id, user.money - price)
+        return true
     }
 
-    @PostMapping("/cell-stocks")
-    fun cellStocks(@RequestParam userId: Int, @RequestParam stockIds: List<Int>) {
+    @PostMapping("/cell-stock")
+    fun cellStocks(@RequestParam userId: Int, @RequestParam stockId: Int) {
         val user = userRepository.getOne(userId)
-        for (stockId in stockIds) {
-            val stock = stockRepository.getOne(stockId)
-            user.stocks.remove(stock)
-            user.money += stock.price()
-        }
+        val stock = stockRepository.getOne(stockId)
+        stockRepository.setOwner(stock.id, null)
+        userRepository.setMoney(user.id, user.money + stock.price())
     }
 }

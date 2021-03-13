@@ -1,5 +1,6 @@
 package daniil.akifev.testcontainers.entity
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference
 import javax.persistence.*
 
 @Entity(name = "User")
@@ -13,5 +14,6 @@ data class User(
     var money: Int = 0,
 
     @OneToMany(mappedBy = "owner")
-    var stocks: MutableSet<Stock> = mutableSetOf()
+    @JsonIdentityReference(alwaysAsId = true)
+    var stocks: MutableList<Stock> = mutableListOf()
 )

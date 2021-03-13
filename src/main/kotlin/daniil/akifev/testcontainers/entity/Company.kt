@@ -12,7 +12,7 @@ data class Company(
     var name: String = "",
 
     @OneToMany(mappedBy = "company")
-    var stocks: MutableSet<Stock> = mutableSetOf(),
+    var stocks: MutableList<Stock> = mutableListOf(),
 
     var stockPrice: Int = 0
 )
