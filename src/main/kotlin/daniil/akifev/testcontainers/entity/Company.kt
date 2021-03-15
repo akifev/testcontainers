@@ -11,7 +11,7 @@ data class Company(
 
     var name: String = "",
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
     var stocks: MutableList<Stock> = mutableListOf(),
 
     var stockPrice: Int = 0

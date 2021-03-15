@@ -27,7 +27,8 @@ class UserController {
     @PostMapping("/add-money")
     fun addMoney(@RequestParam userId: Int, @RequestParam money: Int) {
         val user = userRepository.getOne(userId)
-        userRepository.setMoney(userId, user.money + money)
+        user.money += money
+        userRepository.save(user)
     }
 
     @GetMapping("/get-stocks")
@@ -62,16 +63,20 @@ class UserController {
         if (user.money < price) {
             return false
         }
-        stockRepository.setOwner(stock.id, user.id)
-        userRepository.setMoney(user.id, user.money - price)
+        stock.owner = user
+        stockRepository.save(stock)
+        user.money -= price
+        userRepository.save(user)
         return true
     }
 
-    @PostMapping("/cell-stock")
-    fun cellStocks(@RequestParam userId: Int, @RequestParam stockId: Int) {
+    @PostMapping("/sell-stock")
+    fun sellStocks(@RequestParam userId: Int, @RequestParam stockId: Int) {
         val user = userRepository.getOne(userId)
         val stock = stockRepository.getOne(stockId)
-        stockRepository.setOwner(stock.id, null)
-        userRepository.setMoney(user.id, user.money + stock.price())
+        stock.owner = null
+        stockRepository.save(stock)
+        user.money += stock.price()
+        userRepository.save(user)
     }
 }

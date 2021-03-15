@@ -13,7 +13,7 @@ data class User(
     var name: String = "",
     var money: Int = 0,
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
     @JsonIdentityReference(alwaysAsId = true)
     var stocks: MutableList<Stock> = mutableListOf()
 )

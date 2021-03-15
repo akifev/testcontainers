@@ -1,4 +1,5 @@
 curl -d "name=Apple&stockPrice=100" "http://localhost:8080/stock-market/add-company"
+curl "http://localhost:8080/stock-market/get-stock-price?companyId=1"
 curl -d "companyId=1&count=10" "http://localhost:8080/stock-market/add-stocks"
 
 curl "http://localhost:8080/stock-market/get-company-stocks?companyId=1"
@@ -13,4 +14,4 @@ curl "http://localhost:8080/user/get-stocks-count?userId=1"
 curl "http://localhost:8080/user/get-stocks-total-cost?userId=1"
 curl "http://localhost:8080/user/get-total-money?userId=1"
 
-curl -d "userId=1&stockId=1" "http://localhost:8080/user/cell-stock"
+curl -d "userId=1&stockId=1" "http://localhost:8080/user/sell-stock"
